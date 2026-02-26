@@ -10,6 +10,9 @@ export default {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ["Inter", "sans-serif"],
+            },
             colors: {
                 primary: "#004F99",
                 light: "#FFFFFF",
@@ -17,6 +20,10 @@ export default {
                 success: "#08CB00",
                 warning: "#FAB95B",
                 danger: "#ED322C",
+            },
+            boxShadow: {
+                soft: "0 10px 40px -10px rgba(0,0,0,0.08)",
+                card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
             },
         },
     },
