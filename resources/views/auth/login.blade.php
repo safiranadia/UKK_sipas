@@ -49,7 +49,8 @@
             </div>
 
             <!-- Form -->
-            <form class="space-y-5" onsubmit="event.preventDefault();">
+            <form class="space-y-5" action="{{ route('login') }}" method="POST">
+                @csrf
                 <!-- Username -->
                 <div>
                     <label for="login-username" class="block text-xs font-medium text-gray-600 mb-1.5">Username</label>
