@@ -45,9 +45,9 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex space-x-8">
-                    <a href="#" class="text-gray-900 font-medium border-b-2 border-gray-900 pb-1">Buat pengaduan</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Pengaduan saya</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">History</a>
+                    <a href="{{ route('siswa.home') }}" class="text-gray-900 font-medium border-b-2 border-gray-900 pb-1">Buat pengaduan</a>
+                    <a href="" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Pengaduan saya</a>
+                    <a href="" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">History</a>
                 </div>
 
                 <!-- User Avatar -->

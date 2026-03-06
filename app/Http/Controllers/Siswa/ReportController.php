@@ -13,10 +13,12 @@ class ReportController extends Controller
     public function index()
     {
         $reports = ReportFacilities::where('user_id', Auth::id())->latest()->get();
-        return view('user.pages.home', compact('reports'));
+        $categories = CategoryReports::all();
+        return view('user.pages.home', compact('reports', 'categories'));
     }
 
     // Simpan laporan baru
+    // app/Http/Controllers/Siswa/ReportController.php
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -24,13 +26,19 @@ class ReportController extends Controller
             'deskripsi' => 'required|string',
             'lokasi' => 'required|string|max:255',
             'category_report_id' => 'required|exists:category_reports,id',
-            'bukti.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'tanggal_laporan' => 'required|date',
+            'bukti.*' => 'nullable|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:10240' // 10MB
         ]);
 
         $bukti = [];
         if ($request->hasFile('bukti')) {
             foreach ($request->file('bukti') as $file) {
-                $bukti[] = $file->store('bukti', 'public');
+                $path = $file->store('bukti-laporan/' . Auth::id(), 'public');
+                $bukti[] = [
+                    'path' => $path,
+                    'type' => $file->getMimeType(),
+                    'name' => $file->getClientOriginalName()
+                ];
             }
         }
 
@@ -40,8 +48,8 @@ class ReportController extends Controller
             'lokasi' => $validated['lokasi'],
             'category_report_id' => $validated['category_report_id'],
             'user_id' => Auth::id(),
+            'tanggal_laporan' => $validated['tanggal_laporan'],
             'bukti' => !empty($bukti) ? json_encode($bukti) : null,
-            'tanggal_laporan' => now(),
             'status' => 'pending'
         ]);
 

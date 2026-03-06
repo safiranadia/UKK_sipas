@@ -16,12 +16,12 @@ use App\Http\Controllers\Siswa\ReportController;
 */
 
 Route::get('/', function () {
-    return view('user.pages.home');
+    return view('landing-sipas');
 });
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('showLogin');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -32,8 +32,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 // routes/web.php - Siswa Report Routes
-Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
+Route::middleware('auth')->prefix('siswa')->group(function () {
     Route::get('/home', [ReportController::class, 'index'])->name('siswa.home');
-    Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+    Route::post('/reports', [ReportController::class, 'store'])->name('siswa.reports.store');
     // Tambahkan route lain untuk laporan jika diperlukan
 });
