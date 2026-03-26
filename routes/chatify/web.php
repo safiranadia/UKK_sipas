@@ -14,7 +14,7 @@ use App\Http\Controllers\CustomChatController;
 /*
 * This is the main app route [Chatify Messenger]
 */
-Route::get('/', 'MessagesController@index')->name(config('chatify.routes.prefix'));
+Route::get('/', [CustomChatController::class, 'index'])->name(config('chatify.routes.prefix'));
 
 /**
  *  Fetch info for specific id [user/group]
@@ -115,5 +115,5 @@ Route::get('/group/{id}', 'MessagesController@index')->name('group');
 * e.g. - The commented routes below :
 */
 // Route::get('/route', function(){ return 'Munaf'; }); // works as a route
-Route::get('/{id}', 'MessagesController@index')->name('user');
+Route::get('/{id}', [CustomChatController::class, 'index'])->name('user');
 // Route::get('/route', function(){ return 'Munaf'; }); // works as a user id

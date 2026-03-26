@@ -1,6 +1,7 @@
 @props([
     'triggerText' => 'Lihat Detail',
     'report' => null, // Model report_facilities
+    'variant' => 'button' // 'button' or 'link'
 ])
 
 @php
@@ -27,18 +28,28 @@
     $status = $report->status ?? 'pending';
     $statusLabel = $statusConfig[$status]['label'] ?? 'Unknown';
     $statusClass = $statusConfig[$status]['class'] ?? $statusConfig['pending']['class'];
+
+    $triggerClasses = $variant === 'link' 
+        ? 'text-blue-600 text-sm hover:underline mb-4 inline-block'
+        : 'inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-blue-800 transition-all shadow-md shadow-blue-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary';
 @endphp
 
-<div x-data="{ open: false }" @keydown.escape.window="open = false" x-cloak>
+<div id="modal-progres-{{ $report->id ?? 'default' }}" 
+     x-data="{ open: false }" 
+     x-init="$watch('open', value => document.body.style.overflow = value ? 'hidden' : '')"
+     @open-modal-progress-{{ $report->id ?? 'default' }}.window="open = true"
+     @keydown.escape.window="open = false" 
+     x-cloak>
 
     <!-- Trigger Button -->
-    <button @click="open = true" type="button"
-        {{ $attributes->merge(['class' => 'inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-blue-800 transition-all shadow-md shadow-blue-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary']) }}>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-        </svg>
+    <button @click="open = true" type="button" {{ $attributes->merge(['class' => $triggerClasses]) }}>
+        @if($variant === 'button')
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+        @endif
         {{ $triggerText }}
     </button>
 
@@ -102,7 +113,7 @@
                                 </svg>
                                 Pelapor
                             </p>
-                            <p class="text-sm font-semibold text-gray-900">{{ $report->user->name ?? 'Unknown' }}</p>
+                            <p class="text-sm font-semibold text-gray-900">{{ $report->user->username ?? 'Unknown' }}</p>
                         </div>
 
                         <!-- Tanggal Laporan -->
@@ -160,7 +171,7 @@
                                 </svg>
                                 Kategori
                             </p>
-                            <p class="text-sm text-gray-700">{{ $report->categoryReport->name ?? '-' }}</p>
+                            <p class="text-sm text-gray-700">{{ $report->categoryReport->nama_kategori ?? '-' }}</p>
                         </div>
 
                         <!-- Lokasi -->
@@ -215,17 +226,17 @@
                     <p class="text-xs text-gray-400">
                         Dilaporkan pada {{ $report->created_at?->format('d M Y H:i') ?? '-' }}
                     </p>
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 flex-wrap sm:flex-nowrap">
                         <button @click="open = false" type="button"
-                            class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary h-auto">
                             Tutup
                         </button>
-                        @if (in_array($status, ['pending', 'approved']))
+                        <!-- @if (in_array($status, ['pending', 'approved']))
                             <button type="button"
                                 class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                                 Proses Laporan
                             </button>
-                        @endif
+                        @endif -->
                     </div>
                 </div>
 

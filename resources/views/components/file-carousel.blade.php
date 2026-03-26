@@ -1,16 +1,31 @@
 @props([
-    'buktiJson' => '[]', // JSON string dari database
+    'buktiJson' => '[]', // JSON string atau array dari database
 ])
 
 @php
-    // Parse JSON bukti
-    $files = json_decode($buktiJson, true) ?? [];
+    // Parse JSON bukti jika input adalah string
+    $files = is_array($buktiJson) ? $buktiJson : (json_decode($buktiJson, true) ?? []);
+    
+    // Transformasi path menjadi full URL
+    $transformedFiles = array_map(function($file) {
+        if (!isset($file['url']) && isset($file['path'])) {
+            $file['url'] = asset('storage/' . $file['path']);
+        }
+        // Pastikan type juga terdeteksi dari mime type (e.g. image/jpeg -> image)
+        if (!isset($file['type']) && isset($file['type'])) {
+             // split 'image/jpeg' to 'image'
+        }
+        if (isset($file['type']) && str_contains($file['type'], '/')) {
+             $file['type'] = explode('/', $file['type'])[0];
+        }
+        return $file;
+    }, $files);
 @endphp
 
 <div x-data="{
     current: 0,
-    total: {{ count($files) }},
-    files: {{ json_encode($files) }},
+    total: {{ count($transformedFiles) }},
+    files: {{ json_encode($transformedFiles) }},
     touchStartX: 0,
     touchEndX: 0,
 

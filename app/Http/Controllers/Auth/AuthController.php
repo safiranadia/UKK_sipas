@@ -23,6 +23,11 @@ class AuthController extends Controller
 
         if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
+            $user = auth()->user();
+
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Selamat datang Admin!');
+            }
 
             return redirect()->route('siswa.home')->with('success', 'Login berhasil!');
         }
@@ -49,6 +54,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'role' => 'siswa', // Default role untuk registrasi mandiri
         ]);
 
         auth()->login($user);

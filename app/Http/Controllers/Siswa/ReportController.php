@@ -49,11 +49,11 @@ class ReportController extends Controller
             'category_report_id' => $validated['category_report_id'],
             'user_id' => Auth::id(),
             'tanggal_laporan' => $validated['tanggal_laporan'],
-            'bukti' => !empty($bukti) ? json_encode($bukti) : null,
+            'bukti' => !empty($bukti) ? $bukti : null,
             'status' => 'pending'
         ]);
 
-        return redirect()->route('siswa.reports.show', $report)
+        return redirect()->back()
             ->with('success', 'Laporan berhasil dibuat!');
     }
 }

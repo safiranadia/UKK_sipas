@@ -13,6 +13,10 @@
             font-family: 'Inter', sans-serif;
         }
 
+        [x-cloak] {
+            display: none !important;
+        }
+
         /* Hide default date picker icon */
         input[type="date"]::-webkit-calendar-picker-indicator {
             opacity: 0;
@@ -45,9 +49,18 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex space-x-8">
-                    <a href="{{ route('siswa.home') }}" class="text-gray-900 font-medium border-b-2 border-gray-900 pb-1">Buat pengaduan</a>
-                    <a href="" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Pengaduan saya</a>
-                    <a href="" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">History</a>
+                    <a href="{{ route('siswa.home') }}" 
+                       class="{{ request()->routeIs('siswa.home') ? 'text-gray-900 border-b-2 border-gray-900 pb-1' : 'text-gray-600 hover:text-gray-900' }} font-medium transition-colors">
+                       Buat pengaduan
+                    </a>
+                    <a href="{{ route('siswa.reports.index') }}" 
+                       class="{{ request()->routeIs('siswa.reports.index') ? 'text-gray-900 border-b-2 border-gray-900 pb-1' : 'text-gray-600 hover:text-gray-900' }} font-medium transition-colors">
+                       Pengaduan saya
+                    </a>
+                    <a href="{{ route('siswa.history') }}" 
+                       class="{{ request()->routeIs('siswa.history') ? 'text-gray-900 border-b-2 border-gray-900 pb-1' : 'text-gray-600 hover:text-gray-900' }} font-medium transition-colors">
+                       History
+                    </a>
                 </div>
 
                 <!-- User Avatar -->
