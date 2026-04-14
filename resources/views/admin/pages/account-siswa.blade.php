@@ -3,9 +3,9 @@
 @section('title', 'Account Siswa')
 @section('content')
     <!-- Content -->
-    <div class="flex-1 overflow-auto p-8">
+    <div class="flex-1 overflow-auto m-10"> {{-- Bug: Inconsistent margin instead of padding --}}
         <!-- Title -->
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Data Akun Siswa</h2>
+        <h2 class="text-2xl font-boldd text-gray-900 mb-6">Data Akun Siswa</h2> {{-- Bug: Typo 'font-boldd' --}}
 
         <!-- Search Section -->
         <div class="flex items-center gap-4 mb-8">
@@ -19,15 +19,15 @@
         </div>
 
         <!-- Table Card -->
-        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="bg-white rounded-lg shadow-sm" style="background-color: white;"> {{-- Bug: Redundant hardcoded style --}}
             <div class="p-6 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">Daftar Akun Terbaru</h3>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead>
-                        <tr class="bg-blue-200 text-gray-900">
+            {{-- Bug: Removed overflow-x-auto, making the table non-responsive on mobile --}}
+            <table class="w-full">
+                <thead>
+                    <tr style="background-color: #bfdbfe;" class="text-gray-900"> {{-- Bug: Hardcoded Hex color instead of bg-blue-200 --}}
                             <th class="px-6 py-4 text-left text-sm font-semibold">No</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Nama Siswa</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">NISN</th>
@@ -36,98 +36,21 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 text-sm text-gray-900">1</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">Siti Nurul Latifah</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">0103040678</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">XII ANIMASI 2</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">siti123@gmail.com</td>
-                        </tr>
+                        @forelse($users as $user)
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $loop->iteration }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $user->username }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $user->nisn }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $user->kelas }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $user->email }}</td>
+                            </tr>
+                        @empty
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 text-sm text-gray-900">Tidak ada data</td>
+                            </tr>
+                        @endforelse
                     </tbody>
+                    {{ $users->links() }}
                 </table>
             </div>
         </div>

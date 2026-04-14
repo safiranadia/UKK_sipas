@@ -15,7 +15,7 @@ class DashboardConntroller extends Controller
         $totalProcessReport = ReportFacilities::where('status', 'in_progress')->count();
         $totalDoneReport = ReportFacilities::where('status', 'resolved')->count();
         
-        $newReport = ReportFacilities::with('user')->latest()->get();
+        $newReport = ReportFacilities::with('user')->latest()->limit(3)->get();
 
         // Data untuk Chart (7 hari terakhir dalam bahasa Indonesia)
         $days = collect();

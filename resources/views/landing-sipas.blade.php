@@ -65,8 +65,7 @@
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#"
-                        class="text-secondary/600 hover:text-primary font-medium transition-colors">Beranda</a>
+                    <a href="#" class="text-secondary/600 hover:text-primary font-medium transition-colors">Beranda</a>
                     <a href="#layanan"
                         class="text-secondary/600 hover:text-primary font-medium transition-colors">Layanan</a>
                     <a href="#cara-kerja"
@@ -74,13 +73,20 @@
                         Kerja</a>
                 </div>
 
-                <!-- Auth Buttons -->
-                <div class="hidden md:flex items-center space-x-4">
-                    <a href="{{ route('register') }}"
-                        class="px-6 py-2.5 rounded-full border border-secondary/200 text-secondary/700 font-medium hover:bg-secondary/50 transition-all hover:border-secondary/300">Register</a>
-                    <a href="{{ route('showLogin') }}"
-                        class="px-6 py-2.5 rounded-full bg-primary text-light font-medium shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:shadow-blue-900/30 transition-all transform hover:-translate-y-0.5">Login</a>
-                </div>
+                @auth
+                    <div class="hidden md:flex items-center space-x-4">
+                        <a href="{{ route('siswa.home') }}"
+                            class="px-6 py-2.5 rounded-full bg-primary text-light font-medium shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:shadow-blue-900/30 transition-all transform hover:-translate-y-0.5">Dashboard</a>
+                    </div>
+                @else
+                    <!-- Auth Buttons -->
+                    <div class="hidden md:flex items-center space-x-4">
+                        <a href="{{ route('register') }}"
+                            class="px-6 py-2.5 rounded-full border border-secondary/200 text-secondary/700 font-medium hover:bg-secondary/50 transition-all hover:border-secondary/300">Register</a>
+                        <a href="{{ route('showLogin') }}"
+                            class="px-6 py-2.5 rounded-full bg-primary text-light font-medium shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:shadow-blue-900/30 transition-all transform hover:-translate-y-0.5">Login</a>
+                    </div>
+                @endauth
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
@@ -345,8 +351,8 @@
                 <div>
                     <div class="flex items-center gap-2 mb-4">
                         <div class="bg-primary text-light p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>

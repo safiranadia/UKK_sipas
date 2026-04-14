@@ -38,4 +38,9 @@ class ReportFacilities extends Model
     {
         return $this->belongsTo(CategoryReports::class, 'category_report_id');
     }
+
+    public function solveReport()
+    {
+        return $this->hasOne(SolveReports::class, 'report_facility_id');
+    }
 }

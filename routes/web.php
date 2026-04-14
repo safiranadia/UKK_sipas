@@ -7,6 +7,8 @@ use App\Http\Controllers\Siswa\ListReportController;
 use App\Http\Controllers\Siswa\HistoryReportController;
 use App\Http\Controllers\Admin\DashboardConntroller;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Admin\AccountUserController;
+use App\Http\Controllers\CustomChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +32,15 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-// routes/web.php - Admin Chat Routes
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/report-comments', [App\Http\Controllers\ReportCommentController::class, 'store'])->name('report-comments.store');
+    Route::get('/report-comments/{report_id}', [App\Http\Controllers\ReportCommentController::class, 'index'])->name('report-comments.index');
+});
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardConntroller::class, 'index'])->name('dashboard');
+    Route::get('/account-siswa', [AccountUserController::class, 'index'])->name('account-siswa');
     Route::get('/mark-as-read/{id}', [DashboardConntroller::class, 'markAsRead'])->name('mark-as-read');
     
     // Unified Report Management

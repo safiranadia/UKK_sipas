@@ -45,15 +45,19 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'kelas' => 'required|string|max:255',
+            'nisn' => 'required|string|max:20|unique:users',
         ]);
 
         $user = User::create([
-            'name' => $validated['name'],
+            'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'kelas' => $validated['kelas'],
+            'nisn' => $validated['nisn'],
             'role' => 'siswa', // Default role untuk registrasi mandiri
         ]);
 

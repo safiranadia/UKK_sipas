@@ -19,7 +19,7 @@
 
     <!-- Form Card -->
     <div class="bg-white rounded-lg shadow-sm p-8 md:p-10">
-        <form class="space-y-8" action="{{ route('siswa.reports.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="report-form" class="space-y-8" action="{{ route('siswa.reports.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Judul Pengaduan -->
@@ -27,7 +27,7 @@
                 <label class="block text-sm font-medium text-gray-900 mb-2">
                     Judul Pengaduan
                 </label>
-                <input type="text" placeholder="Masukkan judul pengaduan Anda..." name="nama_fasilitas"
+                <input type="text" placeholder="Masukkan judul pengaduan Anda..." name="nama_fasilitas" required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
             </div>
 
@@ -37,7 +37,7 @@
                     Tanggal Pengaduan
                 </label>
                 <div class="relative">
-                    <input type="date" name="tanggal_laporan"
+                    <input type="date" name="tanggal_laporan" required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +56,7 @@
                     <label class="block text-sm font-medium text-gray-900 mb-2">
                         Lokasi
                     </label>
-                    <input type="text" name="lokasi"
+                    <input type="text" name="lokasi" required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                 </div>
 
@@ -66,7 +66,7 @@
                         Kategori Pengaduan
                     </label>
                     <div class="relative">
-                        <select name="category_report_id"
+                        <select name="category_report_id" required
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white">
                             <option value="" disabled selected>Pilih kategori</option>
                             @foreach ($categories as $category)
@@ -88,7 +88,7 @@
                 <label class="block text-sm font-medium text-gray-900 mb-2">
                     Isi Laporan Pengaduan
                 </label>
-                <textarea rows="6" placeholder="Jelaskan detail pengaduan Anda...." name="deskripsi"
+                <textarea rows="6" placeholder="Jelaskan detail pengaduan Anda...." name="deskripsi" required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none placeholder-gray-400 italic"></textarea>
             </div>
 
@@ -131,10 +131,18 @@
             </div>
 
             <!-- Button Kirim -->
-            <div class="flex justify-end pt-4">
-                <button type="submit"
-                    class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    Kirim
+            <div class="flex justify-end pt-4" x-data>
+                <button type="button"
+                    @click="$dispatch('confirm', {
+                        title: 'Kirim Pengaduan',
+                        message: 'Apakah Anda yakin semua data sudah benar? Laporan yang dikirim akan segera diproses oleh admin.',
+                        action: '#report-form',
+                        confirmText: 'Ya, Kirim Laporan',
+                        cancelText: 'Periksa Lagi',
+                        type: 'info'
+                    })"
+                    class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg shadow-blue-200 hover:shadow-xl transition-all duration-300">
+                    Kirim Laporan
                 </button>
             </div>
         </form>

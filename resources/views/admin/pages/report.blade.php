@@ -15,20 +15,20 @@
                 Semua
             </a>
             <a href="{{ route('admin.reports.index', ['status' => 'pending']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'pending' ? 'bg-yellow-500 text-white shadow-lg shadow-yellow-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'pending' ? 'bg-danger text-white shadow-lg shadow-danger/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
                 Baru
             </a>
+            <a href="{{ route('admin.reports.index', ['status' => 'approved']) }}"
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'approved' ? 'bg-gray-500 text-white shadow-lg shadow-gray-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
+                Disetujui
+            </a>
             <a href="{{ route('admin.reports.index', ['status' => 'in_progress']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'in_progress' ? 'bg-blue-500 text-white shadow-lg shadow-blue-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'in_progress' ? 'bg-warning text-white shadow-lg shadow-warning/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
                 Diproses
             </a>
             <a href="{{ route('admin.reports.index', ['status' => 'resolved']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'resolved' ? 'bg-green-600 text-white shadow-lg shadow-green-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'resolved' ? 'bg-success text-white shadow-lg shadow-success/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
                 Selesai
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'rejected']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'rejected' ? 'bg-red-500 text-white shadow-lg shadow-red-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Ditolak
             </a>
         </div>
 
@@ -53,12 +53,12 @@
                         <div class="absolute top-3 right-3">
                             @php
                                 $statusMap = [
-                                    'pending' => ['label' => 'Baru', 'color' => 'bg-yellow-500'],
-                                    'in_progress' => ['label' => 'Diproses', 'color' => 'bg-blue-500'],
-                                    'resolved' => ['label' => 'Selesai', 'color' => 'bg-green-600'],
-                                    'rejected' => ['label' => 'Ditolak', 'color' => 'bg-red-500'],
+                                    'pending' => ['label' => 'Baru', 'color' => 'bg-danger'],
+                                    'approved' => ['label' => 'Disetujui', 'color' => 'bg-gray-500'],
+                                    'in_progress' => ['label' => 'Diproses', 'color' => 'bg-warning'],
+                                    'resolved' => ['label' => 'Selesai', 'color' => 'bg-success'],
                                 ];
-                                $currentStatus = $statusMap[$report->status] ?? ['label' => $report->status, 'color' => 'bg-gray-500'];
+                                $currentStatus = $statusMap[$report->status] ?? ['label' => $report->status, 'color' => 'bg-gray-400'];
                             @endphp
                             <span class="px-2.5 py-1 {{ $currentStatus['color'] }} text-white text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-sm">
                                 {{ $currentStatus['label'] }}
@@ -88,31 +88,65 @@
 
                         <!-- Actions -->
                         <div class="mt-auto pt-4 flex flex-col gap-3 border-t border-gray-50">
-                            <x-modal-progres :report="$report" variant="link" triggerText="Lihat Detail & Chat" 
-                                class="text-xs font-bold text-blue-600 hover:text-blue-700 p-0 justify-start h-auto bg-transparent border-none shadow-none" />
+                            <div class="flex items-center gap-4">
+                                <x-modal-progres :report="$report" variant="link" triggerText="Lihat Detail" 
+                                    class="text-xs font-bold text-blue-600 hover:text-blue-700 p-0 justify-start h-auto bg-transparent border-none shadow-none" />
+                                
+                                <button @click="$dispatch('open-modal-progress-{{ $report->id }}')" 
+                                    class="text-xs font-bold text-gray-400 hover:text-blue-600 flex items-center gap-1 transition-colors">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                    </svg>
+                                    Chat Pengadu
+                                </button>
+                            </div>
                             
-                            <form action="{{ route('admin.reports.updateStatus', $report->id) }}" method="POST" class="grid grid-cols-2 gap-2">
-                                @csrf
-                                @if($report->status == 'pending')
-                                    <button name="status" value="in_progress" 
-                                        class="px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl text-[10px] font-bold uppercase transition-all duration-200">
-                                        Proses
-                                    </button>
-                                    <button name="status" value="rejected" 
-                                        class="px-3 py-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-xl text-[10px] font-bold uppercase transition-all duration-200">
-                                        Tolak
-                                    </button>
+                            <div class="grid grid-cols-1 gap-2">
+                                @if($report->status == 'pending' || $report->status == 'approved')
+                                    <form id="status-form-{{ $report->id }}" action="{{ route('admin.reports.updateStatus', $report->id) }}" method="POST" class="grid grid-cols-1" x-data>
+                                        @csrf
+                                        <input type="hidden" name="status" id="status-input-{{ $report->id }}" value="">
+                                        @if($report->status == 'pending')
+                                            <button type="button" 
+                                                @click="
+                                                    document.getElementById('status-input-{{ $report->id }}').value = 'approved';
+                                                    $dispatch('confirm', {
+                                                        title: 'Verifikasi Laporan',
+                                                        message: 'Apakah Anda yakin ingin menyetujui dan memverifikasi laporan ini?',
+                                                        action: '#status-form-{{ $report->id }}',
+                                                        confirmText: 'Ya, Verifikasi',
+                                                        type: 'info'
+                                                    })
+                                                "
+                                                class="px-3 py-2 bg-gray-50 text-gray-600 hover:bg-gray-500 hover:text-white rounded-xl text-[10px] font-bold uppercase transition-all duration-200">
+                                                Setujui & Verifikasi
+                                            </button>
+                                        @elseif($report->status == 'approved')
+                                            <button type="button" 
+                                                @click="
+                                                    document.getElementById('status-input-{{ $report->id }}').value = 'in_progress';
+                                                    $dispatch('confirm', {
+                                                        title: 'Mulai Perbaikan',
+                                                        message: 'Tandai laporan ini sebagai sedang dalam perbaikan?',
+                                                        action: '#status-form-{{ $report->id }}',
+                                                        confirmText: 'Mulai Sekarang',
+                                                        type: 'info'
+                                                    })
+                                                "
+                                                class="px-3 py-2 bg-warning/10 text-warning hover:bg-warning hover:text-white rounded-xl text-[10px] font-bold uppercase transition-all duration-200">
+                                                Mulai Perbaikan
+                                            </button>
+                                        @endif
+                                    </form>
                                 @elseif($report->status == 'in_progress')
-                                    <button name="status" value="resolved" 
-                                        class="col-span-2 px-3 py-2 bg-green-50 text-green-700 hover:bg-green-600 hover:text-white rounded-xl text-[10px] font-bold uppercase transition-all duration-200">
-                                        Selesaikan Laporan
-                                    </button>
-                                @elseif($report->status == 'resolved' || $report->status == 'rejected')
-                                    <div class="col-span-2 text-center py-2 bg-gray-50 rounded-xl text-[9px] font-bold text-gray-400 uppercase tracking-widest">
-                                        Tindakan Selesai
+                                    <x-modal-solve :report="$report" isAdmin="true" variant="button" triggerText="Selesaikan Laporan" />
+                                @elseif($report->status == 'resolved')
+                                    <x-modal-solve :report="$report" isAdmin="true" variant="button" triggerText="Lihat Solusi" />
+                                    <div class="text-center py-2 bg-success/5 rounded-xl text-[9px] font-bold text-success uppercase tracking-widest border border-success/10">
+                                        Laporan Selesai
                                     </div>
                                 @endif
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

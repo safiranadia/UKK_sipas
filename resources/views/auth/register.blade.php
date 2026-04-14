@@ -20,7 +20,7 @@
             -webkit-box-shadow: 0 0 0 30px white inset !important;
         }
     </style>
-    <title>Sipas ~ Register</title>
+    <title>Sipas | Register</title>
 </head>
 
 <body class="font-sans text-gray-800 antialiased bg-secondary min-h-screen">
@@ -43,37 +43,49 @@
                 </p>
             </div>
 
-            <form class="space-y-4" onsubmit="event.preventDefault();">
+            <form class="space-y-4" action="{{ route('register') }}" method="POST">
+                @csrf
 
                 <div>
                     <label for="reg-email" class="block text-xs font-medium text-gray-600 mb-1.5">Email</label>
-                    <input type="email" id="reg-email"
+                    <input type="email" id="reg-email" name="email"
                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
-                        placeholder="nama@email.com">
+                        placeholder="nama@email.com" required>
+                    @error('email') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="reg-username"
                             class="block text-xs font-medium text-gray-600 mb-1.5">Username</label>
-                        <input type="text" id="reg-username"
+                        <input type="text" id="reg-username" name="username"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
-                            placeholder="username">
+                            placeholder="username" required>
+                        @error('username') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label for="reg-kelas" class="block text-xs font-medium text-gray-600 mb-1.5">Kelas</label>
-                        <input type="text" id="reg-kelas"
+                        <input type="text" id="reg-kelas" name="kelas"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
-                            placeholder="XII RPL 1">
+                            placeholder="XII RPL 1" required>
+                        @error('kelas') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
                     </div>
+                </div>
+
+                <div>
+                    <label for="reg-nisn" class="block text-xs font-medium text-gray-600 mb-1.5">NISN</label>
+                    <input type="text" id="reg-nisn" name="nisn"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
+                        placeholder="Masukkan NISN Anda" required>
+                    @error('nisn') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div x-data="{ show: false }">
                     <label for="reg-password" class="block text-xs font-medium text-gray-600 mb-1.5">Password</label>
                     <div class="relative">
-                        <input :type="show ? 'text' : 'password'" id="reg-password"
+                        <input :type="show ? 'text' : 'password'" id="reg-password" name="password"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
-                            placeholder="••••••••">
+                            placeholder="••••••••" required>
                         <button type="button" @click="show = !show"
                             class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer focus:outline-none">
                             <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
@@ -84,21 +96,22 @@
                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
                             <svg x-show="show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                                viewBox="0 0 24 24" stroke="currentColor" x-cloak>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                             </svg>
                         </button>
                     </div>
+                    @error('password') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div x-data="{ show: false }">
                     <label for="reg-confirm" class="block text-xs font-medium text-gray-600 mb-1.5">Konfirmasi
                         Password</label>
                     <div class="relative">
-                        <input :type="show ? 'text' : 'password'" id="reg-confirm"
+                        <input :type="show ? 'text' : 'password'" id="reg-confirm" name="password_confirmation"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
-                            placeholder="••••••••">
+                            placeholder="••••••••" required>
                         <button type="button" @click="show = !show"
                             class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer focus:outline-none">
                             <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
@@ -109,7 +122,7 @@
                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
                             <svg x-show="show" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                                viewBox="0 0 24 24" stroke="currentColor" x-cloak>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                             </svg>
@@ -123,6 +136,12 @@
                 </button>
 
             </form>
+            <div class="text-center mt-4">
+                <p class="text-xs text-gray-500">
+                    Sudah memiliki akun?
+                    <a href="{{ route('login') }}" class="text-primary font-semibold hover:underline">Login</a>
+                </p>
+            </div>
         </div>
     </div>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

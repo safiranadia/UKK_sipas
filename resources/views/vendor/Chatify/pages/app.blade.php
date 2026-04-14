@@ -76,6 +76,8 @@
             </div>
         </div>
 
+
+
         {{-- Messaging area --}}
         <div class="m-body messages-container app-scroll">
             <div class="messages">
@@ -95,6 +97,7 @@
             </div>
 
         </div>
+
         @if (!isset($report))
             @include('Chatify::layouts.sendForm')
         @elseif($report->status !== 'resolved')

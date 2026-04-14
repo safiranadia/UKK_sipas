@@ -12,7 +12,7 @@ class HistoryReportController extends Controller
 {
     public function index()
     {
-        $reports = ReportFacilities::with(['user', 'categoryReport'])
+        $reports = ReportFacilities::with(['user', 'categoryReport', 'solveReport.user'])
             ->where('user_id', Auth::id())
             ->where('status', 'resolved')
             ->latest()

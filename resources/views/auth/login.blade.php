@@ -23,7 +23,7 @@
             -webkit-box-shadow: 0 0 0 30px white inset !important;
         }
     </style>
-    <title>Sipas ~ Login</title>
+    <title>Sipas | Login</title>
 </head>
 
 <body class="font-sans text-gray-800 antialiased bg-secondary min-h-screen">
@@ -94,7 +94,7 @@
                 <div class="text-center mt-4">
                     <p class="text-xs text-gray-500">
                         Belum memiliki akun?
-                        <a href="#" class="text-primary font-semibold hover:underline">Register</a>
+                        <a href="{{ route('register') }}" class="text-primary font-semibold hover:underline">Register</a>
                     </p>
                 </div>
             </form>

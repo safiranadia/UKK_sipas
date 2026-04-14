@@ -33,8 +33,11 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen">
+    <x-toast />
+    <x-confirm-modal />
+    
     <!-- Navbar - Sticky (tetap terlihat saat scroll) -->
-    <nav class="bg-white shadow-sm sticky top-0">
+    <nav class="bg-white shadow-sm sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -63,10 +66,46 @@
                     </a>
                 </div>
 
-                <!-- User Avatar -->
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-lg">
-                        S
+                <!-- User Profile & Dropdown -->
+                <div class="flex items-center" x-data="{ open: false }" @click.outside="open = false">
+                    <div class="relative">
+                        <button @click="open = !open" 
+                            class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-lg shadow-md hover:bg-blue-700 transition-all">
+                            {{ substr(Auth::user()->username ?? 'S', 0, 1) }}
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" 
+                            x-cloak
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute right-0 mt-2 w-48 rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50">
+                            
+                            <div class="px-4 py-2 border-b border-gray-50 mb-1">
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Akun Anda</p>
+                                <p class="text-sm font-bold text-gray-900 truncate">{{ Auth::user()->username ?? 'Siswa' }}</p>
+                            </div>
+
+                            <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="button" 
+                                    @click="$dispatch('confirm', {
+                                        title: 'Peringatan',
+                                        message: 'Apakah Anda yakin ingin keluar dari akun Anda sekarang?',
+                                        action: '#logout-form',
+                                        confirmText: 'Logout',
+                                        type: 'danger'
+                                    })"
+                                    class="w-full text-left px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

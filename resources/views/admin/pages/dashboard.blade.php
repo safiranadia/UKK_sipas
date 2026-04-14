@@ -37,8 +37,8 @@
             <!-- Pengaduan Terbaru -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200">
                 <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-gray-900">Pengduan Terbaru</h2>
-                    <a href="#" class="text-blue-600 text-sm hover:underline">Lihat Semua</a>
+                    <h2 class="text-lg font-bold text-gray-900">Pengaduan Terbaru</h2>
+                    <a href="{{ route('admin.reports.index') }}" class="text-blue-600 text-sm hover:underline">Lihat Semua</a>
                 </div>
 
                 <div class="divide-y divide-gray-200">
@@ -47,11 +47,21 @@
                             <div>
                                 <h3 class="font-semibold text-gray-900 mb-1">{{ $report->nama_fasilitas }}</h3>
                                 <p class="text-sm text-gray-500">{{ $report->user->username }} -
-                                    {{ $report->created_at->diffForHumans() }}</p>
+                                    {{ $report->created_at->diffForHumans() }}
+                                </p>
                             </div>
                             <div class="flex items-center gap-4">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">
-                                    {{ $report->status }}
+                                @php
+                                    $statusMap = [
+                                        'pending' => ['label' => 'Baru', 'class' => 'bg-danger/10 text-danger'],
+                                        'approved' => ['label' => 'Disetujui', 'class' => 'bg-gray-100 text-gray-500'],
+                                        'in_progress' => ['label' => 'Diproses', 'class' => 'bg-warning/10 text-warning'],
+                                        'resolved' => ['label' => 'Selesai', 'class' => 'bg-success/10 text-success'],
+                                    ];
+                                    $curr = $statusMap[$report->status] ?? ['label' => $report->status, 'class' => 'bg-gray-100 text-gray-500'];
+                                @endphp
+                                <span class="px-3 py-1 {{ $curr['class'] }} rounded-full text-[10px] font-bold uppercase tracking-wider">
+                                    {{ $curr['label'] }}
                                 </span>
                                 <x-modal-progres :report="$report" variant="link" triggerText="Detail"
                                     class="text-gray-500 text-sm hover:text-blue-600" />
