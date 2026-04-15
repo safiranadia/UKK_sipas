@@ -54,11 +54,46 @@ class CustomChatController extends Controller
         ]);
     }
 
+    /**
+     * Daftar pertanyaan dan jawaban default chatbot
+     */
+    private function getChatbotResponses()
+    {
+        return [
+            'bagaimana cara membuat laporan?' => '✅ Untuk membuat laporan silahkan klik menu "Buat Pengaduan" pada dashboard, pilih kategori kerusakan, isi deskripsi masalah, upload foto bukti, lalu klik kirim.',
+            'berapa lama laporan saya diproses?' => '⏱️ Laporan akan diproses oleh admin maksimal 1x24 jam kerja. Anda akan mendapatkan notifikasi jika status laporan berubah.',
+            'bagaimana melihat status laporan saya?' => '📋 Anda bisa melihat semua status laporan pada menu "Daftar Laporan" atau "Riwayat Laporan". Disana tertera status: Pending, Sedang Diproses, atau Selesai.',
+            'bisa menghapus laporan yang sudah saya kirim?' => '❌ Laporan yang sudah terkirim tidak bisa dihapus. Namun anda bisa membuat laporan baru jika ada kesalahan pada laporan sebelumnya.',
+            'apakah bisa mengedit laporan yang sudah dikirim?' => '✏️ Laporan yang sudah dikirim tidak bisa diedit. Silahkan tunggu admin merespon atau buat laporan baru dengan keterangan tambahan.'
+        ];
+    }
+
+    /**
+     * Cek pesan user dan berikan jawaban otomatis dari chatbot
+     */
+    private function chatbotAutoReply($userMessage, $userId)
+    {
+        $userMessage = strtolower(trim($userMessage));
+        $responses = $this->getChatbotResponses();
+
+        // Cek apakah pertanyaan ada di daftar
+        foreach ($responses as $question => $answer) {
+            similar_text(strtolower($question), $userMessage, $percent);
+            if ($percent > 75) {
+                return $answer;
+            }
+        }
+
+        // Jika tidak ada jawaban, arahkan buat laporan
+        return "🤖 Maaf saya tidak bisa menjawab pertanyaan tersebut.\n\nUntuk masalah yang anda alami, silahkan buat laporan secara formal dengan klik tombol dibawah ini:\n\n👉 [Buat Laporan Sekarang](" . route('user.report.create') . ")\n\nTim admin akan segera memproses laporan anda.";
+    }
+
     public function sendMessage(Request $request)
     {
         $report_id  = $request->report_id;
         // Chatify JS always sends the peer's id as 'id' in the POST body
         $peer_id    = $request->id;
+        $userMessage = htmlentities(trim($request->message ?? ''), ENT_QUOTES, 'UTF-8');
 
         // When a report is involved, double-check receiver from report context
         if ($report_id) {
@@ -71,10 +106,11 @@ class CustomChatController extends Controller
             return response()->json(['status' => '200', 'error' => ['status' => 1, 'message' => 'Receiver not found']]);
         }
 
+        // Kirim pesan user
         $message = Chatify::newMessage([
             'from_id'    => auth()->id(),
             'to_id'      => $peer_id,
-            'body'       => htmlentities(trim($request->message ?? ''), ENT_QUOTES, 'UTF-8'),
+            'body'       => $userMessage,
             'attachment' => null,
         ]);
 
@@ -99,6 +135,36 @@ class CustomChatController extends Controller
             ]);
         }
 
+        // === CHATBOT AUTO REPLY ===
+        if (auth()->user()->role == 'user' || auth()->user()->role == 'siswa') {
+            // Beri jeda simulasi chatbot mengetik
+            sleep(1);
+
+            $botReply = $this->chatbotAutoReply($userMessage, auth()->id());
+            
+            // Kirim jawaban chatbot
+            $botMessage = Chatify::newMessage([
+                'from_id'    => $peer_id,
+                'to_id'      => auth()->id(),
+                'body'       => $botReply,
+                'attachment' => null,
+            ]);
+
+            if ($report_id) {
+                $botMessage->report_facility_id = $report_id;
+                $botMessage->save();
+            }
+
+            $botMessageData = Chatify::parseMessage($botMessage);
+            
+            // Push pesan bot ke user
+            Chatify::push("private-chatify." . auth()->id(), 'messaging', [
+                'from_id' => $peer_id,
+                'to_id'   => auth()->id(),
+                'message' => Chatify::messageCard($botMessageData, 'default'),
+            ]);
+        }
+
         // Return in EXACT same format as Chatify's native send() so JS spinner stops.
         return response()->json([
             'status'  => '200',
@@ -111,6 +177,20 @@ class CustomChatController extends Controller
     public function reportChat($id)
     {
         return redirect()->route('starbhak', ['report_id' => $id]);
+    }
+
+    /**
+     * API Endpoint untuk chatbot
+     */
+    public function chatbotApi(Request $request)
+    {
+        $userMessage = $request->message;
+        $botReply = $this->chatbotAutoReply($userMessage, auth()->id());
+        
+        return response()->json([
+            'status' => 'success',
+            'reply' => nl2br($botReply)
+        ]);
     }
 
     public function fetch(Request $request)

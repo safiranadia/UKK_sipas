@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeAccountMail;
 
 class AuthController extends Controller
 {
@@ -61,9 +63,21 @@ class AuthController extends Controller
             'role' => 'siswa', // Default role untuk registrasi mandiri
         ]);
 
-        auth()->login($user);
+        // Kirim email selamat datang
+        try {
+            Mail::to($user->email)->send(new WelcomeAccountMail([
+                'username' => $user->username,
+                'email' => $user->email,
+                'kelas' => $user->kelas,
+                'nisn' => $user->nisn,
+                'from_admin' => false,
+            ]));
+            $message = '✅ Akun siswa berhasil dibuat! Email konfirmasi telah dikirim ke '.$user->email;
+        } catch (\Exception $e) {
+            $message = '✅ Akun siswa berhasil dibuat! (Gagal mengirim email)';
+        }
 
-        return redirect()->route('siswa.home')->with('success', 'Registrasi berhasil!');
+        return redirect()->route('showLogin')->with('success', 'Registrasi berhasil!');
     }
 
     public function logout(Request $request)

@@ -91,14 +91,6 @@
                             <div class="flex items-center gap-4">
                                 <x-modal-progres :report="$report" variant="link" triggerText="Lihat Detail" 
                                     class="text-xs font-bold text-blue-600 hover:text-blue-700 p-0 justify-start h-auto bg-transparent border-none shadow-none" />
-                                
-                                <button @click="$dispatch('open-modal-progress-{{ $report->id }}')" 
-                                    class="text-xs font-bold text-gray-400 hover:text-blue-600 flex items-center gap-1 transition-colors">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-                                    </svg>
-                                    Chat Pengadu
-                                </button>
                             </div>
                             
                             <div class="grid grid-cols-1 gap-2">
