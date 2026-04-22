@@ -342,6 +342,7 @@
             </div>
         </div>
     </section>
+    <x-chatbot-widget />
 
     <!-- Footer -->
     <footer class="bg-secondary/50 pt-16 pb-8 border-t border-secondary/200">

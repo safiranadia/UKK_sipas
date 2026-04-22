@@ -32,13 +32,15 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
+
+Route::post('chatbot', [CustomChatController::class, 'chatbotApi'])->name('api.chatbot');
+
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/report-comments', [App\Http\Controllers\ReportCommentController::class, 'store'])->name('report-comments.store');
     Route::get('/report-comments/{report_id}', [App\Http\Controllers\ReportCommentController::class, 'index'])->name('report-comments.index');
     
     // Chatbot API
-    Route::post('/api/chatbot', [CustomChatController::class, 'chatbotApi'])->name('api.chatbot');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
