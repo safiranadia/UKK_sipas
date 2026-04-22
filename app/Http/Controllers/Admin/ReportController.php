@@ -14,14 +14,19 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $status = $request->status;
+        $filter_date = $request->filter_date;
+        
         $reports = ReportFacilities::with(['user', 'categoryReport', 'solveReport'])
             ->when($status, function ($query) use ($status) {
                 return $query->where('status', $status);
             })
+            ->when($filter_date, function ($query) use ($filter_date) {
+                return $query->whereDate('created_at', '=', $filter_date);
+            })
             ->latest()
-            ->get(); // Using get() for now as user's previous pages didn't use pagination
+            ->get();
 
-        return view('admin.pages.report', compact('reports'));
+        return view('admin.pages.report', compact('reports', 'status', 'filter_date'));
     }
 
     public function updateStatus(Request $request, $id)

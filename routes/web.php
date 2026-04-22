@@ -47,6 +47,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/dashboard', [DashboardConntroller::class, 'index'])->name('dashboard');
     Route::get('/account-siswa', [AccountUserController::class, 'index'])->name('account-siswa');
     Route::post('/account-siswa/store', [AccountUserController::class, 'store'])->name('account.store');
+    Route::get('/account-siswa/{id}/edit', [AccountUserController::class, 'edit'])->name('account.edit');
+    Route::put('/account-siswa/{id}', [AccountUserController::class, 'update'])->name('account.update');
     Route::delete('/account-siswa/{id}', [AccountUserController::class, 'delete'])->name('account.delete');
     Route::get('/mark-as-read/{id}', [DashboardConntroller::class, 'markAsRead'])->name('mark-as-read');
     

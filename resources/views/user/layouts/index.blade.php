@@ -38,7 +38,7 @@
 
     <!-- Navbar - Sticky (tetap terlihat saat scroll) -->
     <nav class="bg-white shadow-sm sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="w-full mx-auto px-4">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
@@ -73,7 +73,7 @@
                 <div class="flex items-center" x-data="{ open: false }" @click.outside="open = false">
                     <div class="relative">
                         <button @click="open = !open"
-                            class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-lg shadow-md hover:bg-blue-700 transition-all">
+                            class="w-10 h-10 min-w-[40px] min-h-[40px] rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-lg shadow-md hover:bg-blue-700 transition-all flex-shrink-0">
                             {{ substr(Auth::user()->username ?? 'S', 0, 1) }}
                         </button>
 
@@ -84,7 +84,7 @@
                             x-transition:leave="transition ease-in duration-75"
                             x-transition:leave-start="transform opacity-100 scale-100"
                             x-transition:leave-end="transform opacity-0 scale-95"
-                            class="absolute right-0 mt-2 w-48 rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50">
+                            class="absolute right-0 mt-2 w-48 min-w-[192px] rounded-2xl bg-white shadow-xl border border-gray-100 py-2 z-50 transform translate-x-0">
 
                             <div class="px-4 py-2 border-b border-gray-50 mb-1">
                                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Akun Anda</p>

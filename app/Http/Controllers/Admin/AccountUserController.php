@@ -10,10 +10,23 @@ use App\Mail\WelcomeAccountMail;
 
 class AccountUserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('role', 'siswa')->paginate(10);
-        return view("admin.pages.account-siswa", compact('users'));
+        $search = $request->search;
+        
+        $users = User::where('role', 'siswa')
+            ->when($search, function ($query) use ($search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('username', 'LIKE', "%{$search}%")  
+                      ->orWhere('email', 'LIKE', "%{$search}%")
+                      ->orWhere('kelas', 'LIKE', "%{$search}%")
+                      ->orWhere('nisn', 'LIKE', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(10);
+
+        return view("admin.pages.account-siswa", compact('users', 'search'));
     }
 
     public function store(Request $request)
@@ -43,14 +56,43 @@ class AccountUserController extends Controller
                 'password_plain' => $passwordPlain,
                 'from_admin' => true,
             ]));
-            $message = '✅ Akun siswa berhasil dibuat! Email konfirmasi telah dikirim ke '.$user->email;
+            $message = 'Akun siswa berhasil dibuat! Email konfirmasi telah dikirim ke '.$user->email;
         } catch (\Swift_TransportException $e) {
-            $message = '✅ Akun siswa berhasil dibuat! (Gagal koneksi email: '.$e->getCode().')';
+            $message = 'Akun siswa berhasil dibuat! (Gagal koneksi email: '.$e->getCode().')';
         } catch (\Exception $e) {
-            $message = '✅ Akun siswa berhasil dibuat! Email error: '.substr($e->getMessage(), 0, 60);
+            $message = 'Akun siswa berhasil dibuat! Email error: '.substr($e->getMessage(), 0, 60);
         }
         
         return redirect()->back()->with('success', $message);
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return response()->json($user);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
+            'kelas' => 'required|string|max:255',
+            'nisn' => 'required|string|max:20|unique:users,nisn,'.$id,
+            'password' => 'nullable|string|min:6',
+        ]);
+
+        if ($request->filled('password')) {
+            $validated['password'] = bcrypt($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+        
+        return redirect()->back()->with('success', 'Data siswa berhasil diperbarui!');
     }
 
     public function delete($id)

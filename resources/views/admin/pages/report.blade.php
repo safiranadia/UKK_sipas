@@ -8,29 +8,32 @@
         <!-- Title -->
         <h2 class="text-2xl font-bold text-gray-900 mb-6 font-primary">Manajemen Pengaduan</h2>
 
-        <!-- Filter Status -->
-        <div class="flex flex-wrap items-center gap-3 mb-8">
-            <a href="{{ route('admin.reports.index') }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ !request('status') ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Semua
+        <!-- Filter Section -->
+        <form method="GET" action="{{ route('admin.reports.index') }}" class="flex flex-wrap items-center gap-4 mb-8 p-4 bg-white rounded-xl border border-gray-100">
+            <div class="flex items-center gap-2">
+                <label class="text-sm font-medium text-gray-700">Status:</label>
+                <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none min-w-[160px]">
+                    <option value="" {{ !$status ? 'selected' : '' }}>Semua Status</option>
+                    <option value="pending" {{ $status == 'pending' ? 'selected' : '' }}>Baru</option>
+                    <option value="approved" {{ $status == 'approved' ? 'selected' : '' }}>Disetujui</option>
+                    <option value="in_progress" {{ $status == 'in_progress' ? 'selected' : '' }}>Diproses</option>
+                    <option value="resolved" {{ $status == 'resolved' ? 'selected' : '' }}>Selesai</option>
+                </select>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <label class="text-sm font-medium text-gray-700">Tanggal:</label>
+                <input type="date" name="filter_date" value="{{ $filter_date }}" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+            </div>
+            
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all">
+                Filter
+            </button>
+            
+            <a href="{{ route('admin.reports.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-all">
+                Reset
             </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'pending']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'pending' ? 'bg-danger text-white shadow-lg shadow-danger/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Baru
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'approved']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'approved' ? 'bg-gray-500 text-white shadow-lg shadow-gray-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Disetujui
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'in_progress']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'in_progress' ? 'bg-warning text-white shadow-lg shadow-warning/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Diproses
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'resolved']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'resolved' ? 'bg-success text-white shadow-lg shadow-success/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Selesai
-            </a>
-        </div>
+        </form>
 
         <!-- Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
