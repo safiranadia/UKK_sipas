@@ -29,7 +29,7 @@
                 <thead>
                     <tr style="background-color: #bfdbfe;" class="text-gray-900"> {{-- Bug: Hardcoded Hex color instead of bg-blue-200 --}}
                             <th class="px-6 py-4 text-left text-sm font-semibold">No</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold">Nama Siswa</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Username</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">NISN</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Kelas</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Email</th>

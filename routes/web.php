@@ -8,7 +8,7 @@ use App\Http\Controllers\Siswa\HistoryReportController;
 use App\Http\Controllers\Admin\DashboardConntroller;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\AccountUserController;
-use App\Http\Controllers\CustomChatController;
+use App\Http\Controllers\CustomChatController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+    
 });
+
+Route::post('chatbot', [CustomChatController::class, 'chatbotApi'])->name('api.chatbot');
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/report-comments', [App\Http\Controllers\ReportCommentController::class, 'store'])->name('report-comments.store');

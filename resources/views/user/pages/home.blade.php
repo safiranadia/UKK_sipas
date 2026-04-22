@@ -1,7 +1,5 @@
 @extends('user.layouts.index')
-
 @section('title', 'Home')
-
 @section('content')
     <!-- Header Section -->
     <div class="text-center mb-10">
@@ -17,9 +15,20 @@
         </p>
     </div>
 
+    @if ($errors->any())
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Form Card -->
     <div class="bg-white rounded-lg shadow-sm p-8 md:p-10">
-        <form id="report-form" class="space-y-8" action="{{ route('siswa.reports.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="report-form" class="space-y-8" action="{{ route('siswa.reports.store') }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
 
             <!-- Judul Pengaduan -->
@@ -132,15 +141,14 @@
 
             <!-- Button Kirim -->
             <div class="flex justify-end pt-4" x-data>
-                <button type="button"
-                    @click="$dispatch('confirm', {
-                        title: 'Kirim Pengaduan',
-                        message: 'Apakah Anda yakin semua data sudah benar? Laporan yang dikirim akan segera diproses oleh admin.',
-                        action: '#report-form',
-                        confirmText: 'Ya, Kirim Laporan',
-                        cancelText: 'Periksa Lagi',
-                        type: 'info'
-                    })"
+                <button type="button" @click="$dispatch('confirm', {
+                                title: 'Kirim Pengaduan',
+                                message: 'Apakah Anda yakin semua data sudah benar? Laporan yang dikirim akan segera diproses oleh admin.',
+                                action: '#report-form',
+                                confirmText: 'Ya, Kirim Laporan',
+                                cancelText: 'Periksa Lagi',
+                                type: 'info'
+                            })"
                     class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full shadow-lg shadow-blue-200 hover:shadow-xl transition-all duration-300">
                     Kirim Laporan
                 </button>
@@ -163,12 +171,11 @@
     <script>
         let selectedFiles = [];
 
-        document.getElementById('file-input').addEventListener('change', function(e) {
+        document.getElementById('file-input').addEventListener('change', function (e) {
             const files = Array.from(e.target.files);
 
             if (files.length === 0) return;
 
-            // Validasi ukuran (10MB = 10 * 1024 * 1024 bytes)
             const maxSize = 10 * 1024 * 1024;
             const validFiles = files.filter(file => {
                 if (file.size > maxSize) {
@@ -179,8 +186,10 @@
             });
 
             selectedFiles = [...selectedFiles, ...validFiles];
+
             updatePreview();
             updateUploadArea();
+            updateFileInput(); // 🔥 WAJIB DITAMBAHKAN
         });
 
         function updatePreview() {
@@ -205,47 +214,47 @@
                 let mediaElement;
                 if (isVideo) {
                     mediaElement = `
-                        <video class="w-full h-32 object-cover rounded-lg bg-black" preload="metadata">
-                            <source src="${URL.createObjectURL(file)}" type="${file.type}">
-                        </video>
-                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <i class="fas fa-play-circle text-white text-3xl opacity-80"></i>
-                        </div>
-                    `;
-                        } else {
-                            mediaElement = `
-                        <img src="${URL.createObjectURL(file)}" class="w-full h-32 object-cover rounded-lg" alt="Preview">
-                    `;
+                                <video class="w-full h-32 object-cover rounded-lg bg-black" preload="metadata">
+                                    <source src="${URL.createObjectURL(file)}" type="${file.type}">
+                                </video>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <i class="fas fa-play-circle text-white text-3xl opacity-80"></i>
+                                </div>
+                            `;
+                } else {
+                    mediaElement = `
+                                <img src="${URL.createObjectURL(file)}" class="w-full h-32 object-cover rounded-lg" alt="Preview">
+                            `;
                 }
 
                 previewDiv.innerHTML = `
-                    <div class="relative cursor-pointer overflow-hidden rounded-lg border border-gray-200" onclick="openModal(${index})">
-                        ${mediaElement}
-                        
-                        <!-- Hover Overlay -->
-                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center">
-                            <span class="text-white opacity-0 group-hover:opacity-100 text-sm font-medium">
-                                <i class="fas fa-search-plus"></i> Lihat
-                            </span>
-                        </div>
-                        
-                        <!-- File Type Badge -->
-                        <span class="absolute top-2 left-2 px-2 py-1 text-xs font-medium rounded ${isVideo ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}">
-                            ${isVideo ? 'VIDEO' : 'IMG'}
-                        </span>
-                        
-                        <!-- Remove Button -->
-                        <button type="button" onclick="removeFile(event, ${index})" 
-                            class="absolute top-2 right-2 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all z-10">
-                            <i class="fas fa-times text-sm"></i>
-                        </button>
-                        
-                        <!-- File Name -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
-                            <p class="text-white text-xs truncate">${file.name}</p>
-                        </div>
-                    </div>
-                `;
+                            <div class="relative cursor-pointer overflow-hidden rounded-lg border border-gray-200" onclick="openModal(${index})">
+                                ${mediaElement}
+
+                                <!-- Hover Overlay -->
+                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center">
+                                    <span class="text-white opacity-0 group-hover:opacity-100 text-sm font-medium">
+                                        <i class="fas fa-search-plus"></i> Lihat
+                                    </span>
+                                </div>
+
+                                <!-- File Type Badge -->
+                                <span class="absolute top-2 left-2 px-2 py-1 text-xs font-medium rounded ${isVideo ? 'bg-red-500 text-white' : 'bg-blue-500 text-white'}">
+                                    ${isVideo ? 'VIDEO' : 'IMG'}
+                                </span>
+
+                                <!-- Remove Button -->
+                                <button type="button" onclick="removeFile(event, ${index})" 
+                                    class="absolute top-2 right-2 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all z-10">
+                                    <i class="fas fa-times text-sm"></i>
+                                </button>
+
+                                <!-- File Name -->
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
+                                    <p class="text-white text-xs truncate">${file.name}</p>
+                                </div>
+                            </div>
+                        `;
 
                 grid.appendChild(previewDiv);
             });
@@ -259,24 +268,24 @@
                 uploadArea.classList.remove('p-12');
                 uploadArea.classList.add('p-4');
                 placeholder.innerHTML = `
-                    <svg class="w-8 h-8 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                    <p class="text-sm text-blue-600 font-medium">Tambah file lain</p>
-                    <p class="text-xs text-gray-400">${selectedFiles.length} file dipilih</p>
-                `;
+                            <svg class="w-8 h-8 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <p class="text-sm text-blue-600 font-medium">Tambah file lain</p>
+                            <p class="text-xs text-gray-400">${selectedFiles.length} file dipilih</p>
+                        `;
             } else {
                 uploadArea.classList.remove('p-4');
                 uploadArea.classList.add('p-12');
                 placeholder.innerHTML = `
-                    <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                        </path>
-                    </svg>
-                    <p class="text-sm text-gray-500 mb-1">Klik untuk mengunggah foto atau video</p>
-                    <p class="text-xs text-gray-400">Maksimal 10MB per file</p>
-                `;
+                            <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <p class="text-sm text-gray-500 mb-1">Klik untuk mengunggah foto atau video</p>
+                            <p class="text-xs text-gray-400">Maksimal 10MB per file</p>
+                        `;
             }
         }
 
@@ -312,23 +321,23 @@
 
             if (isVideo) {
                 content.innerHTML = `
-                    <video controls autoplay class="max-w-full max-h-[80vh] rounded-lg">
-                        <source src="${URL.createObjectURL(file)}" type="${file.type}">
-                        Browser tidak mendukung video.
-                    </video>
-                    <div class="text-center mt-4">
-                        <p class="text-white font-medium">${file.name}</p>
-                        <p class="text-gray-400 text-sm">${(file.size / (1024 * 1024)).toFixed(2)} MB</p>
-                    </div>
-                `;
+                            <video controls autoplay class="max-w-full max-h-[80vh] rounded-lg">
+                                <source src="${URL.createObjectURL(file)}" type="${file.type}">
+                                Browser tidak mendukung video.
+                            </video>
+                            <div class="text-center mt-4">
+                                <p class="text-white font-medium">${file.name}</p>
+                                <p class="text-gray-400 text-sm">${(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+                            </div>
+                        `;
             } else {
                 content.innerHTML = `
-                    <img src="${URL.createObjectURL(file)}" class="max-w-full max-h-[80vh] rounded-lg object-contain" alt="Preview">
-                    <div class="text-center mt-4">
-                        <p class="text-white font-medium">${file.name}</p>
-                        <p class="text-gray-400 text-sm">${(file.size / (1024 * 1024)).toFixed(2)} MB</p>
-                    </div>
-                `;
+                            <img src="${URL.createObjectURL(file)}" class="max-w-full max-h-[80vh] rounded-lg object-contain" alt="Preview">
+                            <div class="text-center mt-4">
+                                <p class="text-white font-medium">${file.name}</p>
+                                <p class="text-gray-400 text-sm">${(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+                            </div>
+                        `;
             }
 
             modal.classList.remove('hidden');
@@ -344,14 +353,14 @@
         }
 
         // Close modal on outside click
-        document.getElementById('preview-modal').addEventListener('click', function(e) {
+        document.getElementById('preview-modal').addEventListener('click', function (e) {
             if (e.target === this) {
                 closeModal();
             }
         });
 
         // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeModal();
             }
