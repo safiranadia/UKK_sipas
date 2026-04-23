@@ -51,7 +51,9 @@
                     <input type="email" id="reg-email" name="email"
                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                         placeholder="nama@email.com" required>
-                    @error('email') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                    @error('email')
+                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
@@ -61,14 +63,18 @@
                         <input type="text" id="reg-username" name="username"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                             placeholder="username" required>
-                        @error('username') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                        @error('username')
+                            <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="reg-kelas" class="block text-xs font-medium text-gray-600 mb-1.5">Kelas</label>
                         <input type="text" id="reg-kelas" name="kelas"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                             placeholder="XII RPL 1" required>
-                        @error('kelas') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                        @error('kelas')
+                            <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -77,7 +83,9 @@
                     <input type="text" id="reg-nisn" name="nisn"
                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                         placeholder="Masukkan NISN Anda" required>
-                    @error('nisn') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                    @error('nisn')
+                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div x-data="{ show: false }">
@@ -102,7 +110,9 @@
                             </svg>
                         </button>
                     </div>
-                    @error('password') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                    @error('password')
+                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div x-data="{ show: false }">

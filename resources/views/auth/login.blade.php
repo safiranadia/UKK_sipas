@@ -26,9 +26,9 @@
     <title>Sipas | Login</title>
 </head>
 
-<body class="font-sans text-gray-800 antialiased bg-secondary min-h-screen">
-    <div class="flex-grow flex items-center justify-center p-4 sm:p-6">
-        <div class="w-full max-w-[420px] bg-light rounded-2xl shadow-soft p-8 sm:p-10 relative overflow-hidden"
+<body class="font-sans text-gray-800 antialiased bg-secondary min-h-screen flex items-center justify-center">
+    <div class="p-4 sm:p-6 w-full">
+        <div class="w-full max-w-[420px] mx-auto bg-light rounded-2xl shadow-soft p-8 sm:p-10 relative overflow-hidden"
             data-aos="fade-up">
 
             <!-- Logo Section -->
