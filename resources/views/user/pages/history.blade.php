@@ -40,7 +40,7 @@
                     </p>
 
                     <!-- Actions Detail & Solusi -->
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center justify-between">
                         <x-modal-progres :report="$report" variant="link" triggerText="Lihat Detail" />
                         <x-modal-solve :report="$report" triggerText="Lihat Penyelesaian" />
                     </div>
