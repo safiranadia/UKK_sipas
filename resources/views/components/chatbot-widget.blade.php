@@ -1,3 +1,4 @@
+<!-- Chatbot Widget Floating -->
 <style>
     .chatbot-container {
         position: fixed;

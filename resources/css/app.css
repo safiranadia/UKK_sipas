@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fix Alpine JS x-cloak Flicker */
+[x-cloak] { display: none !important; }

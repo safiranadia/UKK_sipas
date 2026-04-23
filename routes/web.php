@@ -39,11 +39,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/report-comments', [App\Http\Controllers\ReportCommentController::class, 'store'])->name('report-comments.store');
     Route::get('/report-comments/{report_id}', [App\Http\Controllers\ReportCommentController::class, 'index'])->name('report-comments.index');
+    
+    // Chatbot API
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardConntroller::class, 'index'])->name('dashboard');
     Route::get('/account-siswa', [AccountUserController::class, 'index'])->name('account-siswa');
+    Route::post('/account-siswa/store', [AccountUserController::class, 'store'])->name('account.store');
+    Route::get('/account-siswa/{id}/edit', [AccountUserController::class, 'edit'])->name('account.edit');
+    Route::put('/account-siswa/{id}', [AccountUserController::class, 'update'])->name('account.update');
+    Route::delete('/account-siswa/{id}', [AccountUserController::class, 'delete'])->name('account.delete');
     Route::get('/mark-as-read/{id}', [DashboardConntroller::class, 'markAsRead'])->name('mark-as-read');
     
     // Unified Report Management

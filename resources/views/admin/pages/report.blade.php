@@ -8,29 +8,45 @@
         <!-- Title -->
         <h2 class="text-2xl font-bold text-gray-900 mb-6 font-primary">Manajemen Pengaduan</h2>
 
-        <!-- Filter Status -->
-        <div class="flex flex-wrap items-center gap-3 mb-8">
-            <a href="{{ route('admin.reports.index') }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ !request('status') ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Semua
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'pending']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'pending' ? 'bg-danger text-white shadow-lg shadow-danger/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Baru
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'approved']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'approved' ? 'bg-gray-500 text-white shadow-lg shadow-gray-200' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Disetujui
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'in_progress']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'in_progress' ? 'bg-warning text-white shadow-lg shadow-warning/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Diproses
-            </a>
-            <a href="{{ route('admin.reports.index', ['status' => 'resolved']) }}"
-                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 {{ request('status') == 'resolved' ? 'bg-success text-white shadow-lg shadow-success/20' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-100' }}">
-                Selesai
-            </a>
-        </div>
+        <!-- Filter Section -->
+        <form method="GET" action="{{ route('admin.reports.index') }}" class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8 p-6 bg-white rounded-2xl border border-gray-100 shadow-sm items-end">
+            
+            <!-- Status Filter -->
+            <div class="md:col-span-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2"></label>
+                <select name="status" onchange="this.form.submit()" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none h-[48px]">
+                    <option value="" {{ !$status ? 'selected' : '' }}>Semua Status</option>
+                    <option value="pending" {{ $status == 'pending' ? 'selected' : '' }}>Baru</option>
+                    <option value="approved" {{ $status == 'approved' ? 'selected' : '' }}>Disetujui</option>
+                    <option value="in_progress" {{ $status == 'in_progress' ? 'selected' : '' }}>Diproses</option>
+                    <option value="resolved" {{ $status == 'resolved' ? 'selected' : '' }}>Selesai</option>
+                </select>
+            </div>
+
+            <!-- Kategori Filter -->
+            <div class="md:col-span-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2"></label>
+                <select name="category_id" onchange="this.form.submit()" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none h-[48px]">
+                    <option value="" {{ !$category_id ? 'selected' : '' }}>Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category_id == $category->id ? 'selected' : '' }}>{{ $category->nama_kategori }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <!-- Tanggal Filter -->
+            <div class="md:col-span-3">
+                <label class="block text-sm font-semibold text-gray-700 mb-2"> </label>
+                <input type="date" name="filter_date" value="{{ $filter_date }}" onchange="this.form.submit()" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none h-[48px]">
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="md:col-span-1">
+                <a href="{{ route('admin.reports.index') }}" class="w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all h-[48px] flex items-center justify-center">
+                    Reset
+                </a>
+            </div>
+        </form>
 
         <!-- Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -91,14 +107,6 @@
                             <div class="flex items-center gap-4">
                                 <x-modal-progres :report="$report" variant="link" triggerText="Lihat Detail" 
                                     class="text-xs font-bold text-blue-600 hover:text-blue-700 p-0 justify-start h-auto bg-transparent border-none shadow-none" />
-                                
-                                <button @click="$dispatch('open-modal-progress-{{ $report->id }}')" 
-                                    class="text-xs font-bold text-gray-400 hover:text-blue-600 flex items-center gap-1 transition-colors">
-                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-                                    </svg>
-                                    Chat Pengadu
-                                </button>
                             </div>
                             
                             <div class="grid grid-cols-1 gap-2">
@@ -131,8 +139,7 @@
                                                         action: '#status-form-{{ $report->id }}',
                                                         confirmText: 'Mulai Sekarang',
                                                         type: 'info'
-                                                    })
-                                                "
+                                                    })"
                                                 class="px-3 py-2 bg-warning/10 text-warning hover:bg-warning hover:text-white rounded-xl text-[10px] font-bold uppercase transition-all duration-200">
                                                 Mulai Perbaikan
                                             </button>
