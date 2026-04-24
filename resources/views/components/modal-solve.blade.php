@@ -16,11 +16,7 @@
         <!-- Trigger Button -->
         @if ($variant === 'link')
             <button @click="open = true" type="button"
-                class="text-success text-sm font-bold hover:underline flex items-center gap-1 transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                class="w-full px-3 py-2 bg-success/10 text-success hover:bg-success hover:text-white rounded-xl text-[10px] font-bold uppercase transition-all duration-200">
                 {{ $triggerText }}
             </button>
         @else
@@ -83,29 +79,38 @@
 
                             <!-- Timeline Progress Section -->
                             <div class="mb-6">
-                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Riwayat Laporan</p>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Riwayat
+                                    Laporan</p>
                                 <div class="flex items-center gap-2">
                                     <!-- Step 1 -->
                                     <div class="flex items-center flex-1">
-                                        <div class="w-8 h-8 rounded-full bg-success flex items-center justify-center text-white text-xs font-bold">1</div>
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-success flex items-center justify-center text-white text-xs font-bold">
+                                            1</div>
                                         <div class="flex-1 h-1 bg-success ml-2 mr-2"></div>
                                     </div>
                                     <!-- Step 2 -->
                                     <div class="flex items-center flex-1">
-                                        <div class="w-8 h-8 rounded-full bg-success flex items-center justify-center text-white text-xs font-bold">2</div>
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-success flex items-center justify-center text-white text-xs font-bold">
+                                            2</div>
                                         <div class="flex-1 h-1 bg-gray-200 ml-2 mr-2"></div>
                                     </div>
                                     <!-- Step 3 -->
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs font-bold">3</div>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs font-bold">
+                                        3</div>
                                 </div>
                                 <div class="grid grid-cols-3 gap-2 mt-2 text-center">
                                     <div>
                                         <p class="text-xs font-semibold text-gray-900">Disetujui</p>
-                                        <p class="text-[10px] text-gray-500">{{ $report->created_at?->format('d/m/y H:i') }}</p>
+                                        <p class="text-[10px] text-gray-500">
+                                            {{ $report->created_at?->format('d/m/y H:i') }}</p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-semibold text-gray-900">Diproses</p>
-                                        <p class="text-[10px] text-gray-500">{{ $report->updated_at?->format('d/m/y H:i') }}</p>
+                                        <p class="text-[10px] text-gray-500">
+                                            {{ $report->updated_at?->format('d/m/y H:i') }}</p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-semibold text-gray-400">Selesai</p>
@@ -198,6 +203,49 @@
                             <div
                                 class="inline-flex items-center px-3 py-1 bg-success/10 text-success text-[10px] font-bold uppercase rounded-full border border-success/20">
                                 Laporan Selesai
+                            </div>
+
+                            <!-- Timeline Progress Section -->
+                            <div class="mb-4">
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Riwayat
+                                    Laporan</p>
+                                <div class="flex items-center gap-2">
+                                    <!-- Step 1 -->
+                                    <div class="flex items-center flex-1">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-success flex items-center justify-center text-white text-xs font-bold">
+                                            1</div>
+                                        <div class="flex-1 h-1 bg-success ml-2 mr-2"></div>
+                                    </div>
+                                    <!-- Step 2 -->
+                                    <div class="flex items-center flex-1">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-success flex items-center justify-center text-white text-xs font-bold">
+                                            2</div>
+                                        <div class="flex-1 h-1 bg-success ml-2 mr-2"></div>
+                                    </div>
+                                    <!-- Step 3 -->
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-success flex items-center justify-center text-white text-xs font-bold">
+                                        3</div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 mt-2 text-center">
+                                    <div>
+                                        <p class="text-xs font-semibold text-gray-900">Disetujui</p>
+                                        <p class="text-[10px] text-gray-500">
+                                            {{ $report->created_at?->format('d/m/y H:i') }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-gray-900">Diproses</p>
+                                        <p class="text-[10px] text-gray-500">
+                                            {{ $report->updated_at?->format('d/m/y H:i') }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-success">Selesai</p>
+                                        <p class="text-[10px] text-gray-500">
+                                            {{ $solve?->tanggal_tanggapan?->format('d/m/y H:i') }}</p>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Tanggapan Section -->
