@@ -11,10 +11,10 @@ class DashboardConntroller extends Controller
     public function index()
     {
         $totalReports = ReportFacilities::count();
-        $totalNewReport = ReportFacilities::where('status', 'pending')->count();    
+        $totalNewReport = ReportFacilities::where('status', 'pending')->count();
         $totalProcessReport = ReportFacilities::where('status', 'in_progress')->count();
         $totalDoneReport = ReportFacilities::where('status', 'resolved')->count();
-        
+
         $newReport = ReportFacilities::with('user')->latest()->limit(3)->get();
 
         // Data untuk Chart (7 hari terakhir dalam bahasa Indonesia)
@@ -28,10 +28,10 @@ class DashboardConntroller extends Controller
         $chartData = $days->values()->toArray();
 
         return view('admin.pages.dashboard', compact(
-            'totalReports', 
-            'totalNewReport', 
-            'totalProcessReport', 
-            'totalDoneReport', 
+            'totalReports',
+            'totalNewReport',
+            'totalProcessReport',
+            'totalDoneReport',
             'newReport',
             'chartLabels',
             'chartData'

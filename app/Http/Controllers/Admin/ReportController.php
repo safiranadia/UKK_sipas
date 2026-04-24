@@ -8,6 +8,7 @@ use App\Models\CategoryReports;
 use App\Models\ReportFacilities;
 use App\Models\SolveReports;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -17,9 +18,9 @@ class ReportController extends Controller
         $filter_date = $request->filter_date;
         $category_id = $request->category_id;
         $search = $request->search;
-        
+
         $categories = CategoryReports::all();
-        
+
         $query = ReportFacilities::with(['user', 'categoryReport', 'solveReport'])
             ->when($status, function ($query) use ($status) {
                 return $query->where('status', $status);
@@ -37,7 +38,7 @@ class ReportController extends Controller
                         ->orWhereHas('user', function ($q2) use ($search) {
                             $q2->where('username', 'LIKE', "%{$search}%")
                                 ->orWhere('email', 'LIKE', "%{$search}%");
-                    });
+                        });
                 });
             })
             ->latest();
@@ -86,5 +87,40 @@ class ReportController extends Controller
         $report->save();
 
         return redirect()->back()->with('success', 'Status laporan berhasil diperbarui.');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $status = $request->status;
+        $filter_date = $request->filter_date;
+        $category_id = $request->category_id;
+        $search = $request->search;
+
+        $reports = ReportFacilities::with(['user', 'categoryReport', 'solveReport'])
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status', $status);
+            })
+            ->when($filter_date, function ($query) use ($filter_date) {
+                return $query->whereDate('created_at', '=', $filter_date);
+            })
+            ->when($category_id, function ($query) use ($category_id) {
+                return $query->where('category_report_id', $category_id);
+            })
+            ->when($search, function ($query) use ($search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('nama_fasilitas', 'LIKE', "%{$search}%")
+                        ->orWhere('deskripsi', 'LIKE', "%{$search}%")
+                        ->orWhereHas('user', function ($q2) use ($search) {
+                            $q2->where('username', 'LIKE', "%{$search}%")
+                                ->orWhere('email', 'LIKE', "%{$search}%");
+                        });
+                });
+            })
+            ->latest()
+            ->get();
+
+        $pdf = PDF::loadView('admin.pdf.export-report', compact('reports'));
+        
+        return $pdf->download('laporan-pengaduan-'.date('d-m-Y').'.pdf');
     }
 }

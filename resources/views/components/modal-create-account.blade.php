@@ -29,7 +29,7 @@
 
         <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 w-full sm:max-w-md">
-                
+
                 <!-- Header -->
                 <div class="px-6 py-4 border-b border-gray-100 bg-blue-50 flex justify-between items-center text-blue-600">
                     <div class="flex items-center gap-2">
@@ -43,7 +43,9 @@
                         </h3>
                     </div>
                     <button @click="createAccountModal = false" class="text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                     </button>
                 </div>
 

@@ -74,18 +74,18 @@
                 </div>
 
                 @auth
-                    <div class="hidden md:flex items-center space-x-4">
-                        <a href="{{ route('siswa.home') }}"
-                            class="px-6 py-2.5 rounded-full bg-primary text-light font-medium shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:shadow-blue-900/30 transition-all transform hover:-translate-y-0.5">Dashboard</a>
-                    </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="{{ route('siswa.home') }}"
+                        class="px-6 py-2.5 rounded-full bg-primary text-light font-medium shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:shadow-blue-900/30 transition-all transform hover:-translate-y-0.5">Dashboard</a>
+                </div>
                 @else
-                    <!-- Auth Buttons -->
-                    <div class="hidden md:flex items-center space-x-4">
-                        <a href="{{ route('register') }}"
-                            class="px-6 py-2.5 rounded-full border border-secondary/200 text-secondary/700 font-medium hover:bg-secondary/50 transition-all hover:border-secondary/300">Register</a>
-                        <a href="{{ route('showLogin') }}"
-                            class="px-6 py-2.5 rounded-full bg-primary text-light font-medium shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:shadow-blue-900/30 transition-all transform hover:-translate-y-0.5">Login</a>
-                    </div>
+                <!-- Auth Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="{{ route('register') }}"
+                        class="px-6 py-2.5 rounded-full border border-secondary/200 text-secondary/700 font-medium hover:bg-secondary/50 transition-all hover:border-secondary/300">Register</a>
+                    <a href="{{ route('showLogin') }}"
+                        class="px-6 py-2.5 rounded-full bg-primary text-light font-medium shadow-lg shadow-blue-900/20 hover:bg-blue-800 hover:shadow-blue-900/30 transition-all transform hover:-translate-y-0.5">Login</a>
+                </div>
                 @endauth
 
                 <!-- Mobile menu button -->

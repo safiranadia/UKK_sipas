@@ -99,37 +99,37 @@
         </div>
 
         @if (!isset($report))
-            @include('Chatify::layouts.sendForm')
+        @include('Chatify::layouts.sendForm')
         @elseif($report->status !== 'resolved')
-            @include('Chatify::layouts.sendForm')
+        @include('Chatify::layouts.sendForm')
         @else
-            <div class="p-3 text-center bg-yellow-50 text-yellow-700 border-t">
-                <strong>Chat sudah ditutup.</strong><br>
-                Laporan ini telah selesai ditangani.
-            </div>
+        <div class="p-3 text-center bg-yellow-50 text-yellow-700 border-t">
+            <strong>Chat sudah ditutup.</strong><br>
+            Laporan ini telah selesai ditangani.
+        </div>
         @endif
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Inject report_id to every AJAX request
         $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-           if (!options.data) options.data = {};
-           
-           let report_id = "{{ $report->id ?? '' }}";
-           if (report_id) {
-               if (options.data instanceof FormData) {
-                   options.data.append('report_id', report_id);
-               } else {
-                   if (typeof options.data === 'string') {
-                       if (options.data.indexOf('report_id=') === -1) {
-                           options.data += (options.data ? '&' : '') + "report_id=" + report_id;
-                       }
-                   } else {
-                       options.data.report_id = report_id;
-                   }
-               }
-           }
+            if (!options.data) options.data = {};
+
+            let report_id = "{{ $report->id ?? '' }}";
+            if (report_id) {
+                if (options.data instanceof FormData) {
+                    options.data.append('report_id', report_id);
+                } else {
+                    if (typeof options.data === 'string') {
+                        if (options.data.indexOf('report_id=') === -1) {
+                            options.data += (options.data ? '&' : '') + "report_id=" + report_id;
+                        }
+                    } else {
+                        options.data.report_id = report_id;
+                    }
+                }
+            }
         });
     </script>
     {{-- ---------------------- Info side ---------------------- --}}

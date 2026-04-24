@@ -1,40 +1,40 @@
 @props([
-    'triggerText' => 'Lihat Detail',
-    'report' => null, // Model report_facilities
-    'variant' => 'button', // 'button' or 'link'
+'triggerText' => 'Lihat Detail',
+'report' => null, // Model report_facilities
+'variant' => 'button', // 'button' or 'link'
 ])
 
 @php
-    // Status mapping untuk warna dan label
-    $statusConfig = [
-        'pending' => [
-            'label' => 'Baru',
-            'class' => 'bg-danger/10 text-danger border-danger/20',
-        ],
-        'approved' => [
-            'label' => 'Disetujui',
-            'class' => 'bg-gray-100 text-gray-500 border-gray-200',
-        ],
-        'in_progress' => [
-            'label' => 'Diproses',
-            'class' => 'bg-warning/10 text-warning border-warning/20',
-        ],
-        'resolved' => [
-            'label' => 'Selesai',
-            'class' => 'bg-success/10 text-success border-success/20',
-        ],
-    ];
+// Status mapping untuk warna dan label
+$statusConfig = [
+'pending' => [
+'label' => 'Baru',
+'class' => 'bg-danger/10 text-danger border-danger/20',
+],
+'approved' => [
+'label' => 'Disetujui',
+'class' => 'bg-gray-100 text-gray-500 border-gray-200',
+],
+'in_progress' => [
+'label' => 'Diproses',
+'class' => 'bg-warning/10 text-warning border-warning/20',
+],
+'resolved' => [
+'label' => 'Selesai',
+'class' => 'bg-success/10 text-success border-success/20',
+],
+];
 
-    $status = $report->status ?? 'pending';
-    $statusLabel = $statusConfig[$status]['label'] ?? 'Unknown';
-    $statusClass = $statusConfig[$status]['class'] ?? $statusConfig['pending']['class'];
+$status = $report->status ?? 'pending';
+$statusLabel = $statusConfig[$status]['label'] ?? 'Unknown';
+$statusClass = $statusConfig[$status]['class'] ?? $statusConfig['pending']['class'];
 
-    $triggerClasses =
-        $variant === 'link'
-            ? 'text-blue-600 text-sm hover:underline inline-block'
-            : 'inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-blue-800 transition-all shadow-md shadow-blue-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary';
+$triggerClasses =
+$variant === 'link'
+? 'text-blue-600 text-sm hover:underline inline-block'
+: 'inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-blue-800 transition-all shadow-md shadow-blue-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary';
 
-    $isResolved = $status === 'resolved';
+$isResolved = $status === 'resolved';
 @endphp
 
 <div id="modal-progres-{{ $report->id ?? 'default' }}" x-data="{
@@ -101,13 +101,13 @@
     <!-- Trigger Button -->
     <button @click="open = true" type="button" {{ $attributes->merge(['class' => $triggerClasses]) }}>
         @if ($variant === 'button')
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
         @endif
         {{ $triggerText }}
     </button>
@@ -192,7 +192,8 @@
                         <div class="bg-gray-50 rounded-lg p-3">
                             <p class="text-[10px] font-bold text-gray-400 uppercase mb-1">Kategori</p>
                             <p class="text-sm text-gray-700 truncate">
-                                {{ $report->categoryReport->nama_kategori ?? '-' }}</p>
+                                {{ $report->categoryReport->nama_kategori ?? '-' }}
+                            </p>
                         </div>
                         <!-- Lokasi -->
                         <div class="bg-gray-50 rounded-lg p-3">
@@ -347,28 +348,28 @@
                     <div class="flex items-center gap-3 flex-wrap">
 
                         @if ($report->status == 'pending')
-                            <form id="verify-form-{{ $report->id }}"
-                                action="{{ route('admin.reports.updateStatus', $report->id) }}" method="POST"
-                                class="inline">
-                                @csrf
-                                <input type="hidden" name="status" value="approved">
-                                <button type="button"
-                                    @click="$dispatch('confirm', {
+                        <form id="verify-form-{{ $report->id }}"
+                            action="{{ route('admin.reports.updateStatus', $report->id) }}" method="POST"
+                            class="inline">
+                            @csrf
+                            <input type="hidden" name="status" value="approved">
+                            <button type="button"
+                                @click="$dispatch('confirm', {
                                         title: 'Verifikasi Laporan',
                                         message: 'Apakah Anda yakin ingin menyetujui dan memverifikasi laporan ini?',
                                         action: '#verify-form-{{ $report->id }}',
                                         confirmText: 'Ya, Verifikasi',
                                         type: 'info'
                                     })"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-all shadow-md">
-                                    Setujui & Verifikasi
-                                </button>
-                            </form>
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-all shadow-md">
+                                Setujui & Verifikasi
+                            </button>
+                        </form>
                         @elseif($report->status == 'resolved')
-                            <div
-                                class="text-center py-2 px-4 bg-success/5 rounded-xl text-[9px] font-bold text-success uppercase tracking-widest border border-success/10">
-                                Laporan Selesai
-                            </div>
+                        <div
+                            class="text-center py-2 px-4 bg-success/5 rounded-xl text-[9px] font-bold text-success uppercase tracking-widest border border-success/10">
+                            Laporan Selesai
+                        </div>
                         @endif
 
                         <button @click="open = false" type="button"

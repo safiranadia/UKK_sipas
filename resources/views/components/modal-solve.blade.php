@@ -105,12 +105,14 @@
                                     <div>
                                         <p class="text-xs font-semibold text-gray-900">Disetujui</p>
                                         <p class="text-[10px] text-gray-500">
-                                            {{ $report->created_at?->format('d/m/y H:i') }}</p>
+                                            {{ $report->created_at?->format('d/m/y H:i') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-semibold text-gray-900">Diproses</p>
                                         <p class="text-[10px] text-gray-500">
-                                            {{ $report->updated_at?->format('d/m/y H:i') }}</p>
+                                            {{ $report->updated_at?->format('d/m/y H:i') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-semibold text-gray-400">Selesai</p>
@@ -233,17 +235,20 @@
                                     <div>
                                         <p class="text-xs font-semibold text-gray-900">Disetujui</p>
                                         <p class="text-[10px] text-gray-500">
-                                            {{ $report->created_at?->format('d/m/y H:i') }}</p>
+                                            {{ $report->created_at?->format('d/m/y H:i') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-semibold text-gray-900">Diproses</p>
                                         <p class="text-[10px] text-gray-500">
-                                            {{ $report->updated_at?->format('d/m/y H:i') }}</p>
+                                            {{ $report->updated_at?->format('d/m/y H:i') }}
+                                        </p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-semibold text-success">Selesai</p>
                                         <p class="text-[10px] text-gray-500">
-                                            {{ $solve?->tanggal_tanggapan?->format('d/m/y H:i') }}</p>
+                                            {{ $solve?->tanggal_tanggapan?->format('d/m/y H:i') }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +292,8 @@
                                         </div>
                                         <div class="overflow-hidden max-w-[120px]">
                                             <p class="text-xs font-bold text-gray-900 truncate">
-                                                {{ $solve->user->username ?? 'Administrator' }}</p>
+                                                {{ $solve->user->username ?? 'Administrator' }}
+                                            </p>
                                             <p
                                                 class="text-[10px] text-gray-400 font-medium uppercase tracking-tight font-bold">
                                                 Petugas Perbaikan</p>
