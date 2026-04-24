@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Swift_TransportException;
 use App\Mail\WelcomeAccountMail;
 
 class AccountUserController extends Controller
@@ -57,12 +58,9 @@ class AccountUserController extends Controller
                 'from_admin' => true,
             ]));
             $message = 'Akun siswa berhasil dibuat! Email konfirmasi telah dikirim ke '.$user->email;
-        } catch (\Swift_TransportException $e) {
-            $message = 'Akun siswa berhasil dibuat! (Gagal koneksi email: '.$e->getCode().')';
         } catch (\Exception $e) {
             $message = 'Akun siswa berhasil dibuat! Email error: '.substr($e->getMessage(), 0, 60);
         }
-        
         return redirect()->back()->with('success', $message);
     }
 

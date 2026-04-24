@@ -52,7 +52,7 @@
                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                         placeholder="nama@email.com" required>
                     @error('email')
-                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -64,7 +64,7 @@
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                             placeholder="username" required>
                         @error('username')
-                            <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
@@ -73,7 +73,7 @@
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                             placeholder="XII RPL 1" required>
                         @error('kelas')
-                            <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder-gray-400"
                         placeholder="Masukkan NISN Anda" required>
                     @error('nisn')
-                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -111,7 +111,7 @@
                         </button>
                     </div>
                     @error('password')
-                        <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 

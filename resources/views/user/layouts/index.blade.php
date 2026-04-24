@@ -89,7 +89,8 @@
                             <div class="px-4 py-2 border-b border-gray-50 mb-1">
                                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Akun Anda</p>
                                 <p class="text-sm font-bold text-gray-900 truncate">
-                                    {{ Auth::user()->username ?? 'Siswa' }}</p>
+                                    {{ Auth::user()->username ?? 'Siswa' }}
+                                </p>
                             </div>
 
                             <form id="logout-form" method="POST" action="{{ route('logout') }}">
@@ -125,7 +126,7 @@
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('scripts')
-    
+
     <!-- Chatbot Widget -->
     <x-chatbot-widget />
 </body>

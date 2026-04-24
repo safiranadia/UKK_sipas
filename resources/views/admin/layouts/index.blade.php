@@ -125,8 +125,8 @@
                                 </path>
                             </svg>
                             @if (isset($unreadReports) && $unreadReports->count() > 0)
-                                <span
-                                    class="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full"></span>
+                            <span
+                                class="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full"></span>
                             @endif
                         </button>
 
@@ -145,46 +145,49 @@
                             </div>
                             <div class="max-h-96 overflow-y-auto">
                                 @forelse($unreadReports ?? [] as $report)
-                                    <a href="{{ route('admin.mark-as-read', $report->id) }}"
-                                        class="block p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 group">
-                                        <div class="flex gap-3">
-                                            <div
-                                                class="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-100">
-                                                {{ substr($report->user->username ?? 'U', 0, 1) }}
-                                            </div>
-                                            <div class="overflow-hidden">
-                                                <p
-                                                    class="text-sm font-bold text-gray-900 truncate group-hover:text-blue-600">
-                                                    {{ $report->nama_fasilitas }}</p>
-                                                <p class="text-[11px] text-gray-500 line-clamp-1 mt-0.5">
-                                                    {{ $report->deskripsi }}</p>
-                                                <p
-                                                    class="text-[10px] text-gray-400 mt-2 uppercase font-bold tracking-tighter">
-                                                    {{ $report->created_at->diffForHumans() }}</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                @empty
-                                    <div class="p-12 text-center">
+                                <a href="{{ route('admin.mark-as-read', $report->id) }}"
+                                    class="block p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 group">
+                                    <div class="flex gap-3">
                                         <div
-                                            class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
-                                                </path>
-                                            </svg>
+                                            class="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-100">
+                                            {{ substr($report->user->username ?? 'U', 0, 1) }}
                                         </div>
-                                        <p class="text-gray-400 text-[11px] font-bold uppercase tracking-widest">Tidak
-                                            ada laporan</p>
+                                        <div class="overflow-hidden">
+                                            <p
+                                                class="text-sm font-bold text-gray-900 truncate group-hover:text-blue-600">
+                                                {{ $report->nama_fasilitas }}
+                                            </p>
+                                            <p class="text-[11px] text-gray-500 line-clamp-1 mt-0.5">
+                                                {{ $report->deskripsi }}
+                                            </p>
+                                            <p
+                                                class="text-[10px] text-gray-400 mt-2 uppercase font-bold tracking-tighter">
+                                                {{ $report->created_at->diffForHumans() }}
+                                            </p>
+                                        </div>
                                     </div>
+                                </a>
+                                @empty
+                                <div class="p-12 text-center">
+                                    <div
+                                        class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                        <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-gray-400 text-[11px] font-bold uppercase tracking-widest">Tidak
+                                        ada laporan</p>
+                                </div>
                                 @endforelse
                             </div>
                             @if (isset($unreadReports) && $unreadReports->count() > 0)
-                                <a href="{{ route('admin.reports.index') }}"
-                                    class="block p-3 bg-gray-50 text-center border-t border-gray-100 text-[10px] font-bold text-gray-400 uppercase hover:text-blue-600 transition-colors">
-                                    Lihat Semua Laporan
-                                </a>
+                            <a href="{{ route('admin.reports.index') }}"
+                                class="block p-3 bg-gray-50 text-center border-t border-gray-100 text-[10px] font-bold text-gray-400 uppercase hover:text-blue-600 transition-colors">
+                                Lihat Semua Laporan
+                            </a>
                             @endif
                         </div>
                     </div>

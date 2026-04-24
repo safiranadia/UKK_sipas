@@ -17,9 +17,9 @@ class ReportController extends Controller
         $filter_date = $request->filter_date;
         $category_id = $request->category_id;
         $search = $request->search;
-        
+
         $categories = CategoryReports::all();
-        
+
         $query = ReportFacilities::with(['user', 'categoryReport', 'solveReport'])
             ->when($status, function ($query) use ($status) {
                 return $query->where('status', $status);
@@ -37,7 +37,7 @@ class ReportController extends Controller
                         ->orWhereHas('user', function ($q2) use ($search) {
                             $q2->where('username', 'LIKE', "%{$search}%")
                                 ->orWhere('email', 'LIKE', "%{$search}%");
-                    });
+                        });
                 });
             })
             ->latest();
